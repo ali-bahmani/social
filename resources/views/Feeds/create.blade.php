@@ -6,7 +6,13 @@ Create New Feed!
 @endsection
 
 @section('content')
-
+<div class="row">
+        <div class="col-12">
+            <button type="button" class="close fancybox-button " data-fancybox-close=""  >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
     <form method="post" action="{{route('feed.store')}}" enctype="multipart/form-data">
         @csrf
             <div class="previewImg-div">
@@ -23,7 +29,6 @@ Create New Feed!
             </div>
                 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Post</button>
             </div>
 

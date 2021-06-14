@@ -8,50 +8,49 @@
             </button>
 
             <a href="{{route('profile.userProfile',$feed->user->id)}}" style="margin-bottom: 0px;">
-                <img src="{{$feed->user->avatar_path}}" alt="Avatar" class="avatar"> 
-                <span>{{$feed->user->name}}</span>
+                <img src="{{$feed->user->avatar_path}}" alt="Avatar" class="profile-picture-mini"> 
+                <span class="user-name-feed">{{$feed->user->name}}</span>
             </a>
         </div>
     </div>
 
-    <hr style="margin-top: 0px;border-top: 2px solid rgba(0,0,0,.1);">
+    <hr style="margin-top: 0px" class="line">
 
     <div class="row">
         <div class="col-12">
             @if($feed->type == 'image')
-                <img src="{{$feed->path}}" class="col-12 feed" >
+                <img src="{{$feed->path}}" class="col-12 image-feed-modal" >
             @else
                 <video class="col-12 feed">
-                    <source src="{{$feed->path}}" type="video/mp4">
+                    <source src="{{$feed->path}}" type="video/mp4" class="video-feed-modal">
                 </video>
             @endif
         </div>
  
     </div>
  
-    <hr style="border-top: 2px solid rgba(0,0,0,.1);">
+    <hr class="line">
  
     <div class="row">
-        <div class="col-12 tools " style="display: inherit;">
+        <div class="col-12 tools-feed " style="display: inherit;">
             <div class="mr-3" id="likeDiv">
-                <a id="like" class="ml-3"><i class="" id="likeIcon"></i></a><sapn id="countLike"></span>
+                <a id="like-tool" class="ml-3"><i class="" id="like-icon"></i></a><sapn id="like-count"></span>
             </div>
                 
             <div class="mr-3">
-                <a href="#"><i class="far fa-comment m-1 fa-lg"></i></a><sapn>{{$commentCount}}</span>
-
+                <a id="comment-tool" href="#"><i class="far fa-comment m-1 fa-lg" id="comment-icon"></i></a><sapn id="comment-count">{{$commentCount}}</span>
             </div>
 
             <div class="mr-3">
-                <a href="#"><i class="far fa-eye m-1 fa-lg"></i></a><sapn>{{views($feed)->count()}}</span>
-
+                <a id="view-tool" href="#"><i class="far fa-eye m-1 fa-lg" id="eye-icon"></i></a><sapn id="view-count">{{views($feed)->count()}}</span>
             </div>
-
         </div>
     </div>
-    <hr style="border-top: 2px solid rgba(0,0,0,.1);">
+
+    <hr class="line">
+
     <div class="row">
-        <div class="col-12 description">
+        <div class="col-12 description-feed-modal">
             <p>
                 {{$feed->description}}
             </p>
@@ -59,11 +58,11 @@
     </div>
     
     <div class="row">
-        <div class="col-12 comment mt-3">
-            <form id="commentForm">
+        <div class="col-12 comment-div mt-3">
+            <form id="comment-form">
                 @csrf()
                 <div class="input-group">
-                    <input type="text" class="form-control" name="description" id="description" placeholder="Comment...">
+                    <input type="text" class="form-control" name="description" id="description-input" placeholder="Comment...">
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit">
                             <i class="fas fa-paper-plane"></i>
@@ -71,31 +70,28 @@
                     </div>
                 </div>
             </form>
-        @foreach($comments as $comment)
-            <div class="show-comments">
-            <b>{{$comment->user->name}}:</b>
-                {{$comment->description}}
-            </div>
-        @endforeach
+            @foreach($comments as $comment)
+                <div class="comments-feed-modal">
+                    <b>{{$comment->user->name}}:</b>
+                    {{$comment->description}}
+                </div>
+            @endforeach
             
         </div>
     </div>
 
-    </div>
-         
-    </div>
+
                        
 @endsection
 
 @push('scripts')
-
     <script>
-    feedId = {{$feed->id}};
+        feedId = {{$feed->id}};
         $(document).ready(function () {
             likeCount(feedId)
-            $("#commentForm").submit(function (event) {
+            $("#comment-form").submit(function (event) {
                 var formData = {
-                    description: $("#description").val(),
+                    description: $("#description-input").val(),
                     _token: "{{ csrf_token() }}",
                 };
 
@@ -111,7 +107,7 @@
                 event.preventDefault();
             });
 
-            $('#like').click(function (event) {
+            $('#like-tool').click(function (event) {
                 $.ajax({
                     type: "get",
                     url: "{{route('like.index',$feed->id)}}",
@@ -129,15 +125,15 @@
                 type: "get",
                 url: Url.replace(':feedId',feedId),
                 success: function(response){
-                    $('#likeIcon').removeClass("fas fa-heart m-1 fa-lg red-heart")
+                    $('#like-icon').removeClass("fas fa-heart m-1 fa-lg red-heart")
                     if(response.isLiked == true){
-                        $('#likeIcon').addClass("fas fa-heart m-1 fa-lg red-heart");
+                        $('#like-icon').addClass("fas fa-heart m-1 fa-lg red-heart");
                         console.log('true')
                     }else{           
-                        $('#likeIcon').addClass("far fa-heart m-1 fa-lg ");   
+                        $('#like-icon').addClass("far fa-heart m-1 fa-lg ");   
                         console.log('false')
                     }
-                    $("#countLike").text(response.reactionCounters);
+                    $("#like-count").text(response.reactionCounters);
 
                 },
             })
@@ -146,34 +142,3 @@
 
     </script>
 @endpush
-<style>
-.feed {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-
-
-}
-.tools{
-    font-size: 20px;
-    color: black;
-}
-
-.tools a{
-    color:black;
-}
-.description p{
-    margin: 0 0 0 20px;
-}
-.comment{
-    margin:
-}
-.show-comments{
-    margin-left:20px;
-}
-
-.red-heart{
-    color: #ed4956;
-}
-
-</style>

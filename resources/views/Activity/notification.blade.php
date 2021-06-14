@@ -84,10 +84,3 @@
 
 </script>
 @endpush
-
-<style>
-.notificationTitle{
-    margin-top: auto;
-    margin-bottom: auto;
-}
-</style>

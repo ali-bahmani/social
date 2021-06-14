@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-between mt-3">
                 <div class="m-3">
-                    <img src="{{$following->avatar_path }}"  alt="Avatar" class="avatar"> 
+                    <img src="{{$following->avatar_path }}"  alt="Avatar" class="profile-picture-mini"> 
                     <span>{{$following->name}}</span>
                 </div>
 
@@ -34,13 +34,3 @@
 </div>
                  
 @endsection
-
-@push('scripts')
-
-    <script>
-
-    </script>
-@endpush
-<style>
-
-</style>
