@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/like/{feed}', 'App\Http\Controllers\FeedController@like')->name('like');
 
+    Route::delete('feed/delete/{feed}', 'App\Http\Controllers\FeedController@delete')->name('feed.delete');
+
     Route::group(['prefix'=>'like', 'as' => 'like.'],function(){
 
         Route::get('/like/{feed}', 'App\Http\Controllers\FeedController@like')->name('index');

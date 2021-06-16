@@ -26,13 +26,12 @@
                 </video>
             @endif
         </div>
- 
     </div>
  
     <hr class="line">
  
     <div class="row">
-        <div class="col-12 tools-feed " style="display: inherit;">
+        <div class="col-12 tools-feed d-flex" style="display: inherit;">
             <div class="mr-3" id="likeDiv">
                 <a id="like-tool" class="ml-3"><i class="" id="like-icon"></i></a><sapn id="like-count"></span>
             </div>
@@ -44,8 +43,17 @@
             <div class="mr-3">
                 <a id="view-tool" href="#"><i class="far fa-eye m-1 fa-lg" id="eye-icon"></i></a><sapn id="view-count">{{views($feed)->count()}}</span>
             </div>
+            @if($from == 'profile')
+                <div class="mr-3 ml-auto">
+                    <!-- <a id="update-feed-tool" href="{{route('feed.update',$feed->id)}}" ><i class="fas fa-pencil-alt mr-3"></i></a> -->
+
+                    <a id="delete-feed-tool" ><i class="far fa-trash-alt"></i></a>
+
+                </div>
+            @endif
         </div>
     </div>
+
 
     <hr class="line">
 
@@ -116,7 +124,37 @@
                     },
                 })
             });
+
+
+            $('#delete-feed-tool').click(function (event) {
+                    $.confirm({
+                        title: 'Delete Feed',
+                        content: 'Are you sure you want to delete this Feed?',
+                        type: 'red',
+                        buttons: {   
+                            ok: {
+                                text: "ok!",
+                                btnClass: 'btn-primary',
+                                keys: ['enter'],
+                                action: function(){
+                                    axios.delete("{{Route('feed.delete',$feed->id)}}").then(function (response) {
+                                        switch(response.status){
+                                            case 200 :
+                                                location.reload(true);
+
+                                            break;
+                                        }
+                                    });
+                                }
+                            },
+                            cancel: function(){
+                            }
+                        }
+                    });
+            });
         });
+
+
 
         function likeCount(feedId) {
             Url = '{{route('like.likeCount',':feedId')}}';
