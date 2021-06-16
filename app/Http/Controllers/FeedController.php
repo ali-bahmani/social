@@ -12,12 +12,11 @@ class FeedController extends Controller
 {
     public function show(Feed $feed){
         views($feed)->record();
-
-        $reactantFacade = $feed->viaLoveReactant();
-        $reactionCounters = $reactantFacade->getReactionCounters()[0]['count'] ?? 0;
+        $profile = auth()->id() == $feed->user_id ? $from='profile' : $from='explorer';
         $comments = Comment::all()->where('feed_id',$feed->id);
         $commentCount = $comments->count();
-        return view('Feeds.show',compact('feed','comments','reactionCounters','commentCount'));
+
+        return view('Feeds.show',compact('feed','comments','commentCount','from'));
     }
 
     public function create(){
@@ -74,4 +73,12 @@ class FeedController extends Controller
 
     }
 
+    public function delete(Feed $feed){
+        $feed->delete();
+        return response('feed deleted', 200);
+    }
+
+    public function update(){
+        return 'update';
+    }
 }
