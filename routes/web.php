@@ -37,9 +37,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix'=>'profile', 'as' => 'profile.'],function(){
 
+        Route::get('update', 'App\Http\Controllers\ProfileController@update')->name('update');
+
+        Route::put('edit', 'App\Http\Controllers\ProfileController@edit')->name('edit');
+
         Route::get('/', 'App\Http\Controllers\ProfileController@index')->name('index');
 
         Route::get('/{user}', 'App\Http\Controllers\ProfileController@userProfile')->name('userProfile');
+
     
     });
 
@@ -78,6 +83,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/notifications', 'App\Http\Controllers\ActivityController@notifications')->name('notifications');
     
     });
+
+    Route::get('/alijoon', 'App\Http\Controllers\ProfileController@alijoon')->name('alijoon');
+
 
 });
 

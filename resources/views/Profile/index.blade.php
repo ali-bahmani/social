@@ -12,6 +12,17 @@
         <div class="row" id="bio-user-div">
             <p>{{$user->name}}</p>
         </div>
+        @isset($userProfile)
+
+        @else
+            <div class="row" id="edit-profile-btn-div">
+
+                <a id="edit-profile-btn" type="button" class="btn btn-secondary shadow-lg" data-options='{"modal":"true"}' data-fancybox data-type="ajax" data-src="{{Route('profile.update')}}" href="javascript:;">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i> Edit Profile
+                </a>
+
+            </div>
+        @endisset
     <hr/>
         <div class="container d-flex justify-content-around mb-3" id="user-information">
             <a id="followers-information" data-options='{"modal":"true"}' data-fancybox data-type="ajax" data-src="{{route('follower.showAllFollowers',$user->id)}}" href="javascript:;" >
@@ -86,6 +97,17 @@
         })
 
         let un_follow_url = "{{ route('follower.unFollow',['user_id'=>$user->id])}}";
+        $('#unFollow').click(function(){
+            $.ajax({
+                type: "get",
+                url: un_follow_url,
+                success: function(){
+                    location.reload(true);
+                },
+            });
+        })
+
+        let edit_profile_url = "{{ route('follower.unFollow',['user_id'=>$user->id])}}";
         $('#unFollow').click(function(){
             $.ajax({
                 type: "get",

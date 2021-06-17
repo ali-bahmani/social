@@ -26,6 +26,7 @@ class User extends Authenticatable implements ReacterableInterface
         'name',
         'email',
         'password',
+        'avatar_path'
     ];
 
     /**

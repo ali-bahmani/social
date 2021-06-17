@@ -45,6 +45,11 @@
       display: flex;
       justify-content: center;
   }
+
+  #edit-profile-btn-div{
+    display: flex;
+    justify-content: center;
+  }
   
   #bio-user-div{
       display: flex;
