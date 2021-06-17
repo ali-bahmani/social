@@ -11,21 +11,14 @@ use Illuminate\Support\Facades\Storage;
 class ProfileController extends Controller
 {
     public function index(){
-        $feeds = Feed::where('user_id',auth()->id())->orderBy('created_at','desc')->get();
         $user = auth()->user();
+
+        $feeds = $user->feeds()->orderBy('created_at','desc')->get();
         $followersCount = $user->followers->count();
         $followingsCount = $user->followings->count();
         $feedCount = $feeds->count();
 
         return view('Profile.index',compact('feeds','user','followersCount','followingsCount','feedCount'));
-    }
-
-    public function editAvatar(){
-
-    }
-
-    public function editProfile(){
-
     }
 
     public function userProfile(User $user){

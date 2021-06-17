@@ -19,11 +19,10 @@ class CommentController extends Controller
         $comment->description = $request->description;
 
         if($comment->save()){
-            //dd($comment);
             event(new NewComment($comment));
-            return 'ok';
+            return response('comment saved successfully',201);
         }else{
-            return 'error';
+            return response('Error saving comment',500);
         }
 
 

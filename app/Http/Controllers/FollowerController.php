@@ -23,7 +23,7 @@ class FollowerController extends Controller
         ]);
 
         event(new NewFollower($follower));
-        return 'ok';
+        return response('user followed',200);
     }
 
     public function unFollow(Request $request){
@@ -32,7 +32,7 @@ class FollowerController extends Controller
 
         $following = Following::where('user_id',auth()->id())->where('following_id' , $request->user_id)->delete();
 
-        return 'ok';
+        return response('user unfollowed',200);
     }
 
     public function followers(User $user){
